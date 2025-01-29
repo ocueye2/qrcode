@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Here To There</title>
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+   <style>
+      body {
+         font-family: 'Montserrat', sans-serif;
+         background: linear-gradient(90deg, hsla(198, 100%, 50%, 1) 0%, hsla(188, 92%, 49%, 1) 48%, hsla(201, 100%, 49%, 1) 97%);
+         text-align: center;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         height: 100vh;
+         margin: 0;
+      }
+
+      .title,
+      .main {
+         background-color: hsl(0, 0%, 22%);
+         backdrop-filter: blur(10px);
+         color: white;
+         padding: 20px;
+         margin: 20px;
+         border-radius: 20px;
+         width: fit-content;
+      }
+
+      .upload,
+      .download {
+         color: white;
+         border-radius: 20px;
+         background-color: #393939;
+         margin: 20px auto;
+         padding: 20px;
+         width: 300px;
+         height: 200px;
+      }
+
+      input,
+      button {
+         border-radius: 20px;
+         padding: 10px;
+         background-color: rgb(79, 79, 79);
+         border: none;
+         color: rgb(222, 222, 222);
+      }
+      
+      .types a {
+         text-decoration: none;
+         color: white;
+         transition: all .3s;
+         display: block;
+      }
+
+      .types a:hover {
+         transform: scale(1.3);
+         color: rgb(87, 87, 87);
+      }
+
+      .types a:active {
+         color: rgb(0, 0, 0);
+      }
+
+      .main table {
+         margin: auto;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="title">
+      <h1>QR Code Generator</h1>
+   </div>
+
+   <div class="main">
+      <table>
+         <tr>
+            <td class="types">
+               <a href="?type=LINK"><h1>Link</h1></a>
+               <a href="?type=TEL"><h1>Telephone</h1></a>
+               <a href="?type=MAIL"><h1>Email</h1></a>
+            </td>
+            <td>
+               <div class="upload">
+                  {{ form|safe }}
+               </div>
+            </td>
+            <td>
+               {{ codeimg|safe }}
+            </td>
+         </tr>
+      </table>
+   </div>
+</body>
+</html>

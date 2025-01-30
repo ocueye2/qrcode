@@ -1,0 +1,6 @@
+services:
+  myapp:
+    build: .
+    ports:
+      - "7123:7123"
+    container_name: contact info

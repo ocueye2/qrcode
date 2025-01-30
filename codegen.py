@@ -59,12 +59,12 @@ def index():
         qrtype = request.args.get('type') 
     
     codeimg = "<h2> fill out info to generate qr code </h2>"
-    if qrtype:
+    if qrtype and request.args.get('link') != None:
         print(qrtype)
         try:
             if qrtype == "LINK":
                 codeimg = f'<img src="qrcode?link={request.args.get('link')}"'
-            elif qrtype == "MAIL":
+            elif qrtype == "EMAIL":
                 codeimg = f'<img src="qrcode?link=MAILTO:{request.args.get('link')}">'
             elif qrtype == "TEL":
                 codeimg = f'<img src="qrcode?link=TEL:{request.args.get('link')}" width="400" height="400">'

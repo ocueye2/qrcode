@@ -8,4 +8,4 @@ just run compose file, port is 7123
 - [x] Telephone
 - [x] Email
 - [x] (partial) WiFi 
-- [ ] VCard (contact info in a QR code)
+- [x] VCard (contact info in a QR code)

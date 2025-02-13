@@ -2,6 +2,7 @@ import qrcode
 import os
 from io import BytesIO
 from flask import Flask, send_file, request, render_template_string, render_template
+from urllib.parse import quote
 
 app = Flask(__name__)
 
@@ -60,6 +61,10 @@ def index():
             <p id="error" style="color: red; display: none;">File size must be below !MAXFILESIZEHERE! MB.</p>
          </form>
         """
+    elif qrtype == "VCARD":
+        form = f"""
+        <a href="Vcard"> <h1> Configure </h1> </a>
+        """
     else:
         form = f"""
         <h2>Enter Telephone:</h2>
@@ -68,7 +73,6 @@ def index():
             <input type="text" name="link" id="link" />
             <br><br>
             <input type="submit" value="Upload" id="submitButton" />
-            <p id="error" style="color: red; display: none;">File size must be below !MAXFILESIZEHERE! MB.</p>
          </form>
         """
     
@@ -89,6 +93,26 @@ def index():
                 codeimg = f'<img src="qrcode?link=TEL:{request.args.get('link')}" width="400" height="400">'
             elif qrtype == "WIFI":
                 codeimg = f'<img src="qrcode?link=WIFI:S:{request.args.get('NAME')};T:{request.args.get('security')};P:{request.args.get('password')};;" width="400" height="400">'
+            elif qrtype == "VCARD":
+                codeimg = ""
+                if request.args.get('FNAME') and request.args.get('LNAME'):
+                    codeimg += f"FN:{request.args.get('FNAME')} {request.args.get('LNAME')} \nN;CHARSET=UTF-8:{request.args.get('LNAME')};{request.args.get('FNAME')};;;\n"
+                if request.args.get('Gender'):
+                    codeimg += f"GENDER:{request.args.get('Gender')}\n"
+                if request.args.get('MEMAIL'):
+                    codeimg += f"EMAIL:{request.args.get('MEMAIL')}\n"
+                if request.args.get('CELLPHONE'):
+                    codeimg += f"TEL;TYPE=CELL:{request.args.get('CELLPHONE')}\n"
+                if request.args.get('HOMEPHONE'):
+                    codeimg += f"TEL;TYPE=HOME,VOICE:{request.args.get('HOMEPHONE')}\n"
+                codeimg = f"""
+BEGIN:VCARD
+VERSION:3.0
+{codeimg}END:VCARD
+"""             
+                encoded_vcard = quote(codeimg)
+                print(codeimg)
+                codeimg = f'<img src="qrcode?link={codeimg}" width="400" height="400">'
         except:
             print("nocontent")
             codeimg = "<h2> fill out info to generate qr code </h2>"
@@ -97,7 +121,11 @@ def index():
     print(codeimg)
     return render_template("home.html", form=form, codeimg=codeimg)
     
-
+@app.route('/Vcard', methods=['GET', 'POST'])
+def vcard():
+    return render_template("Vcardconf.html")
+    
+    
 @app.route('/qrcode', methods=['GET', 'POST'])
 def generate_qrcode():
     if request.method == 'POST':

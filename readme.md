@@ -1,4 +1,5 @@
-# self hosted qr code generator
+# easy self hosted qr code generator
+### Because every other one wants to steal your data
 just run compose file, port is 7123
 
 ## current functionality

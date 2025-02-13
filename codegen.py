@@ -41,6 +41,25 @@ def index():
             <p id="error" style="color: red; display: none;">File size must be below !MAXFILESIZEHERE! MB.</p>
          </form>
         """
+    elif qrtype == "WIFI":
+        form = f"""
+        
+         <form action="" method="get" enctype="multipart/form-data" id="uploadForm">
+            <input type="hidden" name="type" value="WIFI">
+            <input type="hidden" name="link" value="asd">
+            <h3>Enter Wifi Name:</h3>
+            <input type="text" name="NAME" id="NAME" />
+            <select name="security" id="security">
+                <option value="WPA">wpa</option>
+                <option value="WEP">wep</option>
+            </select>
+            <h3>Enter Wifi Password (if aplicable):</h3>
+            <input type="text" name="password" id="password" />
+            <br><br>
+            <input type="submit" value="Upload" id="submitButton" />
+            <p id="error" style="color: red; display: none;">File size must be below !MAXFILESIZEHERE! MB.</p>
+         </form>
+        """
     else:
         form = f"""
         <h2>Enter Telephone:</h2>
@@ -63,11 +82,13 @@ def index():
         print(qrtype)
         try:
             if qrtype == "LINK":
-                codeimg = f'<img src="qrcode?link={request.args.get('link')}"'
+                codeimg = f'<img src="qrcode?link={request.args.get('link')}" width="400" height="400">'
             elif qrtype == "EMAIL":
-                codeimg = f'<img src="qrcode?link=MAILTO:{request.args.get('link')}">'
+                codeimg = f'<img src="qrcode?link=MAILTO:{request.args.get('link')}" width="400" height="400">'
             elif qrtype == "TEL":
                 codeimg = f'<img src="qrcode?link=TEL:{request.args.get('link')}" width="400" height="400">'
+            elif qrtype == "WIFI":
+                codeimg = f'<img src="qrcode?link=WIFI:S:{request.args.get('NAME')};T:{request.args.get('security')};P:{request.args.get('password')};;" width="400" height="400">'
         except:
             print("nocontent")
             codeimg = "<h2> fill out info to generate qr code </h2>"
@@ -105,4 +126,5 @@ def generate_qrcode():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8060, debug=True)
+
